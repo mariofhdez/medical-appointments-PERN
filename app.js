@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const { PrismaClient } = require('./generated/prisma');
+const prisma = new PrismaClient();
 
 const { validateUser } = require('./utils/validation');
 const LoggerMiddleware = require('./middlewares/logger');
@@ -10,8 +12,6 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const usersFilePath = path.join(__dirname, 'users.json');
-
-const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const app = express();
 app.use(bodyParser.json());
@@ -162,6 +162,25 @@ app.delete('/users/:id', (req, res) => {
 app.get('/error', (req, res, next) => {
     next(new Error('Error intencional'));
 });
+
+app.get('/db-users', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al comunicarse con la Base de datos'});
+    }
+})
+
+app.post('/db-users', async (req, res) => {
+    try {
+        const data = req.body;
+        const user = await prisma.user.create({data:data});
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al comunicarse con la Base de datos'});
+    }
+})
 
 
 app.listen(PORT, () => {
