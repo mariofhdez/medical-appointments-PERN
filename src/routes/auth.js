@@ -1,14 +1,14 @@
 const { Router } = require('express');
-const { register, login } = require('../controllers/authController');
+const { register, login, users } = require('../controllers/authController');
 const authenticateToken = require('../middlewares/auth');
 
-const router = Router();
+const authRouter = Router();
 
-router.post('/register', register);
-router.post('/login', login);
+authRouter.post('/register', register);
+authRouter.post('/login', login);
 
-router.get('/protected-route', authenticateToken, (req, res) => {
+authRouter.get('/protected-route', authenticateToken, (req, res) => {
     res.send('Esta es una ruta protegida.');
 });
 
-module.exports = router;
+module.exports = authRouter;

@@ -185,9 +185,7 @@ app.post('/db-users', async (req, res) => {
     }
 })
 
-app.get('/protected-route', authenticateToken, (req, res) => {
-    res.send('Esta es una ruta protegida');
-});
+// refactor
 
 app.post('/register', async(req, res) => {
     const { email, password, name } = req.body;
