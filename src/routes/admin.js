@@ -1,18 +1,11 @@
 const { Router } = require('express');
-const { createTimeBlock, listReservations } = require('../controllers/adminController');
+const { createTimeBlock, listReservations, listUsers } = require('../controllers/adminController');
+const authenticateToken = require('../middlewares/auth');
 
 const router = Router();
 
-router.post('/time-blocks', createTimeBlock);
-router.get('/reservations', listReservations);
-
-router.get('/users', async (req, res) => {
-    try{
-        const users = await listUsersService();
-        res.json(users);
-    } catch (error) {
-        res.status.json({ error: 'Error listando usuarios'})
-    }
-})
+router.post('/time-blocks', authenticateToken, createTimeBlock);
+router.get('/reservations', authenticateToken, listReservations);
+router.get('/users', authenticateToken, listUsers);
 
 module.exports = router;

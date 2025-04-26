@@ -16,6 +16,8 @@ const createTimeBlock = async(req, res) => {
 }
 
 const listReservations = async (req, res) => {
+
+    console.log(req.user.role);
     if(req.user.role !== 'ADMIN'){
         return res.status(403).json({error: 'Access denied'});
     }
@@ -24,7 +26,7 @@ const listReservations = async (req, res) => {
         const reservations = await listReservationsService();
         res.json(reservations);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching reservtions'});
+        res.status(500).json({ error: 'Error fetching reservations'});
     }
 }
 
