@@ -22,7 +22,6 @@ exports.createReservation = async (data, userId) => {
 }
 
 exports.getReservation = async (id) => {
-    console.log('service');
     return prisma.appointment.findUnique({
         where: { id: parseInt(id, 10) }
     });

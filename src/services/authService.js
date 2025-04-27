@@ -15,9 +15,9 @@ const loginUserService = async (email, password) => {
     if (!user) return res.status(400).json({ error: 'Invalid email or password' });
 
     const validPassword = await bcrypt.compare(password, user.password);
-    console.log('validando pass');
+    
     if (!validPassword) return res.status(400).json({ error: 'Invalid email or password' });
-    console.log(user);
+    
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '4h' });
 
     return token;

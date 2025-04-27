@@ -17,7 +17,6 @@ const createTimeBlock = async(req, res) => {
 
 const listReservations = async (req, res) => {
 
-    console.log(req.user.role);
     if(req.user.role !== 'ADMIN'){
         return res.status(403).json({error: 'Access denied'});
     }

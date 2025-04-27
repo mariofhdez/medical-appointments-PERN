@@ -1,7 +1,6 @@
 const { registerUserService, loginUserService } = require('../services/authService');
 
 const register = async (req, res) => {
-    console.log('controller');
     try{
         const { email, password, name } = req.body;
         await registerUserService(email, password, name);
